@@ -10,6 +10,8 @@ FROM docker.io/golang:${GOLANG_VERSION} as build
 
 WORKDIR /vultr-status-exporter
 
+COPY go.* ./
+
 COPY api api
 COPY cmd cmd
 COPY collector ./collector
