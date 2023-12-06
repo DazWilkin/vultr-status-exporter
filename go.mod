@@ -1,6 +1,6 @@
 module github.com/DazWilkin/vultr-status-exporter
 
-go 1.20
+go 1.21.5
 
 require (
 	github.com/prometheus/client_golang v1.17.0
