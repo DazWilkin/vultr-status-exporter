@@ -4,11 +4,11 @@ on:
     branches:
       - master
 jobs:
-  gcp-exporter:
-    name: gcp-exporter
+  vultr-status-exporter:
+    name: vultr-status-exporter
     runs-on: ubuntu-latest
     env:
-      REPO: dazwilkin/gcp-exporter
+      REPO: dazwilkin/vultr-status-exporter
     steps:
       - name: Checkout
         uses: actions/checkout@v4
