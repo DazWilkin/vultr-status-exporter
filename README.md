@@ -15,13 +15,12 @@ go install github.com/DazWilkin/vultr-status-exporter@latest
 ### Container
 
 ```bash
-REPO="ghcr.io/dazwilkin/vultr-status-exporter"
 PORT="8080"
 
 podman run \
 --interactive --tty \
 --publish=${PORT}:${PORT} \
-${REPO}:1234567890123456789012345678901234567890
+ghcr.io/dazwilkin/vultr-status-exporter:1234567890123456789012345678901234567890
 ```
 
 ### Kubernetes
@@ -43,7 +42,7 @@ kubectl apply \
 ```bash
 cosign verify \
 --key=./cosign.pub \
-ghcr.io/dazwilkin/gcp-exporter:395613207e239929ba7968b9ec4448db57da534d
+ghcr.io/dazwilkin/vultr-status-exporter:1234567890123456789012345678901234567890
 ```
 
 > **NOTE** `cosign.pub` may be downloaded [here]()
