@@ -16,11 +16,13 @@ const (
 	endpoint string = "https://status.vultr.com"
 )
 
+// Client is a type that represents a client of Vultr Status
 type Client struct {
 	client      *http.Client
 	rateLimiter *rate.Limiter
 }
 
+// NewClient is a function that creates a new Client
 func NewClient() *Client {
 	return &Client{
 		client: &http.Client{
@@ -29,6 +31,8 @@ func NewClient() *Client {
 		rateLimiter: rate.NewLimiter(rate.Every(time.Second), 5),
 	}
 }
+
+// Do is a method that implements requests against Vultr Status
 func (c *Client) Do(ctx context.Context, method, url string, body io.Reader) ([]byte, error) {
 	rqst, err := http.NewRequestWithContext(ctx, method, url, body)
 	if err != nil {
@@ -84,6 +88,8 @@ func (c *Client) Do(ctx context.Context, method, url string, body io.Reader) ([]
 
 	return respBody, nil
 }
+
+// Alerts is a method that corresponds to the Vultr Status Alert method
 func (c *Client) Alerts() (*Alerts, error) {
 	ctx := context.Background()
 	method := http.MethodGet
@@ -112,6 +118,8 @@ func (c *Client) Alerts() (*Alerts, error) {
 
 	return alerts, nil
 }
+
+// Status is a method that corresponds to the Vultr Status Status method
 func (c *Client) Status() (*Status, error) {
 	ctx := context.Background()
 	method := http.MethodGet
