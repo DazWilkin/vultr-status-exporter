@@ -4,6 +4,17 @@
 
 A Prometheus Exporter for [Vultr Server Status JSON Endpoints](https://www.vultr.com/docs/vultr-server-status-json-endpoints)
 
+## Metrics
+
+Metrics are prefixed `vultr_status_`
+
+|Name|Type|Description|
+|----|----|-----------|
+|`vultr_exporter_build_info`|Counter|A metric with a constant '1' value labeled by OS version, Go version, and the Git commit of the exporter|
+|`vultr_exporter_start_time`|Gauge|Exporter start time in Unix epoch seconds|
+|`vultr_status_infrastructure`|Gauge|Vultr Infrastructure status|
+|`vultr_status_service_alert`|Counter|Vultr Service Alerts|
+
 ## Installation
 
 ### Go
