@@ -54,7 +54,7 @@ cosign verify \
 ghcr.io/dazwilkin/vultr-status-exporter:6801ae47f0b019bc0c2fa260328d64789803610b
 ```
 
-> **NOTE** `cosign.pub` may be downloaded [here]()
+> **NOTE** `cosign.pub` may be downloaded [here](./cosign.pub)
 
 To install `cosign`, e.g.:
 
