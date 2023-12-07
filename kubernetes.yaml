@@ -1,2 +1,58 @@
-# Placeholder to ensure the value is updated by GitHub Actions
-ghcr.io/dazwilkin/vultr-status-exporter:db37b3f69d4d48da7642f7b7cdb9b905d4b832fb
+apiVersion: v1
+kind: List
+metadata: {}
+items:
+  - kind: Deployment
+    apiVersion: apps/v1
+    metadata:
+      labels:
+        app: vultr-status-exporter
+      name: vultr-status-exporter
+    spec:
+      replicas: 1
+      selector:
+        matchLabels:
+          app: vultr-status-exporter
+      template:
+        metadata:
+          labels:
+            app: vultr-status-exporter
+        spec:
+          containers:
+            - name: vultr-status-exporter
+              image: ghcr.io/dazwilkin/vultr-status-exporter:db37b3f69d4d48da7642f7b7cdb9b905d4b832fb
+              command:
+              - /vultr-status-exporter
+              args:
+              - --endpoint=:8080
+              - --path=/metrics
+              ports:
+                - name: metrics
+                  containerPort: 8080
+          restartPolicy: Always
+  - kind: Service
+    apiVersion: v1
+    metadata:
+      labels:
+        app: vultr-status-exporter
+      name: vultr-status-exporter
+    spec:
+      selector:
+        app: vultr-status-exporter
+      ports:
+        - name: metrics
+          port: 8080
+          targetPort: 8080
+      type: NodePort
+  - kind: ServiceMonitor
+    apiVersion: monitoring.coreos.com/v1
+    metadata:
+      name: vultr-status-exporter
+      labels:
+        app: vultr-status-exporter
+    spec:
+      selector:
+        matchLabels:
+          app: vultr-status-exporter
+      endpoints:
+        - port: metrics
