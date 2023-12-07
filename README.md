@@ -26,14 +26,23 @@ ghcr.io/dazwilkin/vultr-status-exporter:db37b3f69d4d48da7642f7b7cdb9b905d4b832fb
 ### Kubernetes
 
 ```bash
-NAMESPACE="vultr-status-exporter"
+NAMESPACE="exporter"
 
 kubectl create namespace ${NAMESPACE}
 
+# Apply Deployment|Service
 kubectl apply \
 --filename=./kubernetes.yaml \
 --namespace=${NAMESPACE}
+
+# Get Service NodePort
+NODE_PORT=$(\
+  kubectl get service/vultr-status-exporter \
+  --namespace=${NAMESPACE} \
+  --output=jsonpath="{.spec.ports[?(@.name==\"metrics\")].nodePort}") && echo ${NODE_PORT}
 ```
+
+Browse: `localhost:${NODE_PORT}`
 
 ## Sigstore
 
