@@ -12,8 +12,8 @@ import (
 type StatusCollector struct {
 	client *api.Client
 
-	ServiceAlert *prometheus.Desc
-	Region       *prometheus.Desc
+	ServiceAlert   *prometheus.Desc
+	Infrastructure *prometheus.Desc
 }
 
 // NewStatusCollector returns a new StatusCollector
@@ -27,17 +27,18 @@ func NewStatusCollector() *StatusCollector {
 
 		ServiceAlert: prometheus.NewDesc(
 			prometheus.BuildFQName(namespace, subsystem, "service_alert"),
-			"Alert",
+			"Vultr Service Alerts",
 			[]string{
 				"region",
 				"status",
 			},
 			nil,
 		),
-		Region: prometheus.NewDesc(
-			prometheus.BuildFQName(namespace, subsystem, "region"),
-			"Region",
+		Infrastructure: prometheus.NewDesc(
+			prometheus.BuildFQName(namespace, subsystem, "infrastructure"),
+			"Vultr Infrastructure status",
 			[]string{
+				"region",
 				"location",
 				"country",
 				"country_name",
@@ -86,12 +87,13 @@ func (c *StatusCollector) Collect(ch chan<- prometheus.Metric) {
 			return
 		}
 
-		for _, region := range status.Regions {
+		for ID, region := range status.Regions {
 			ch <- prometheus.MustNewConstMetric(
-				c.Region,
+				c.Infrastructure,
 				prometheus.GaugeValue,
 				float64(len(region.Alerts)),
 				[]string{
+					ID,
 					region.Location,
 					region.Country,
 					region.CountryName,
@@ -106,5 +108,5 @@ func (c *StatusCollector) Collect(ch chan<- prometheus.Metric) {
 // Describe implements Prometheus' Collector interface and is used to describe metrics
 func (c *StatusCollector) Describe(ch chan<- *prometheus.Desc) {
 	ch <- c.ServiceAlert
-	ch <- c.Region
+	ch <- c.Infrastructure
 }
