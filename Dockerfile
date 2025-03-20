@@ -27,7 +27,7 @@ RUN CGO_ENABLED=0 GOOS=${TARGETOS} GOARCH=${TARGETARCH} \
     -ldflags "-X main.OSVersion=${VERSION} -X main.GitCommit=${COMMIT}" \
     -a -installsuffix cgo \
     -o /go/bin/vultr-status-exporter \
-    ./cmd/exporter/main.go
+    ./cmd/exporter/...
 
 FROM --platform=${TARGETARCH} gcr.io/distroless/static-debian12:latest
 
