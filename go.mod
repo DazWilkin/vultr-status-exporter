@@ -1,6 +1,6 @@
 module github.com/DazWilkin/vultr-status-exporter
 
-go 1.24
+go 1.24.0
 
 require (
 	github.com/prometheus/client_golang v1.21.1
@@ -8,6 +8,7 @@ require (
 )
 
 require (
+	github.com/DazWilkin/go-probe v0.0.0-20250304224115-7eabda2f006a // indirect
 	github.com/beorn7/perks v1.0.1 // indirect
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/klauspost/compress v1.18.0 // indirect
