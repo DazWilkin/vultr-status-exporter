@@ -33,7 +33,7 @@ PORT="8080"
 podman run \
 --interactive --tty \
 --publish=${PORT}:${PORT} \
-ghcr.io/dazwilkin/vultr-status-exporter:b6bc878785f89b2dbfaa656b34e71435799b5194
+ghcr.io/dazwilkin/vultr-status-exporter:fd43aacc0ecb592f71cc249642b9ac030eed6f6f
 ```
 
 ### Kubernetes
@@ -64,7 +64,7 @@ Browse: `localhost:${NODE_PORT}`
 ```bash
 cosign verify \
 --key=./cosign.pub \
-ghcr.io/dazwilkin/vultr-status-exporter:b6bc878785f89b2dbfaa656b34e71435799b5194
+ghcr.io/dazwilkin/vultr-status-exporter:fd43aacc0ecb592f71cc249642b9ac030eed6f6f
 ```
 
 > **NOTE** `cosign.pub` may be downloaded [here](./cosign.pub)
