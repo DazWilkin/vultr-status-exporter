@@ -3,6 +3,7 @@ package api
 import (
 	"context"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"log/slog"
@@ -38,7 +39,7 @@ func (c *Client) Do(ctx context.Context, method, url string, body io.Reader) ([]
 	if err != nil {
 		msg := "unable to create Vultr status client"
 		slog.Info(msg)
-		return nil, fmt.Errorf(msg)
+		return nil, errors.New(msg)
 	}
 
 	// Add Content-Type header
@@ -57,7 +58,7 @@ func (c *Client) Do(ctx context.Context, method, url string, body io.Reader) ([]
 	if err := c.rateLimiter.Wait(ctx); err != nil {
 		msg := "API rate limit exceeed"
 		slog.Info(msg)
-		return nil, fmt.Errorf(msg)
+		return nil, errors.New(msg)
 	}
 
 	resp, err := c.client.Do(rqst)
@@ -75,7 +76,7 @@ func (c *Client) Do(ctx context.Context, method, url string, body io.Reader) ([]
 	if err != nil {
 		msg := "unable to read response body"
 		slog.Info(msg)
-		return nil, fmt.Errorf(msg)
+		return nil, errors.New(msg)
 	}
 
 	if resp.StatusCode != http.StatusOK {
@@ -101,7 +102,7 @@ func (c *Client) Alerts() (*Alerts, error) {
 	if err != nil {
 		msg := "unable to get alerts"
 		slog.Info(msg)
-		return alerts, fmt.Errorf(msg)
+		return alerts, errors.New(msg)
 	}
 
 	if err := json.Unmarshal(resp, alerts); err != nil {
@@ -109,7 +110,7 @@ func (c *Client) Alerts() (*Alerts, error) {
 		slog.Info(msg,
 			"response", resp,
 		)
-		return alerts, fmt.Errorf(msg)
+		return alerts, errors.New(msg)
 	}
 
 	slog.Info("Returning",
@@ -131,7 +132,7 @@ func (c *Client) Status() (*Status, error) {
 	if err != nil {
 		msg := "unable to get status"
 		slog.Info(msg)
-		return status, fmt.Errorf(msg)
+		return status, errors.New(msg)
 	}
 
 	if err := json.Unmarshal(resp, status); err != nil {
@@ -139,7 +140,7 @@ func (c *Client) Status() (*Status, error) {
 		slog.Info(msg,
 			"response", resp,
 		)
-		return status, fmt.Errorf(msg)
+		return status, errors.New(msg)
 	}
 
 	slog.Info("Returning",
