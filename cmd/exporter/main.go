@@ -3,7 +3,7 @@ package main
 import (
 	"flag"
 	"fmt"
-	"log"
+	"log/slog"
 	"net/http"
 	"runtime"
 	"time"
@@ -31,7 +31,9 @@ var (
 func handleHealthz(w http.ResponseWriter, _ *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	if _, err := w.Write([]byte("ok")); err != nil {
-		log.Println("[main:handleHealthz] unable to write")
+		slog.Error("unable to write",
+			"err", err,
+		)
 	}
 }
 func handleRoot(w http.ResponseWriter, _ *http.Request) {
@@ -46,10 +48,14 @@ func main() {
 	flag.Parse()
 
 	if GitCommit == "" {
-		log.Println("[main] GitCommit value unchanged: expected to be set during build")
+		slog.Info("expected value to be set during build",
+			"GitCommit", GitCommit,
+		)
 	}
 	if OSVersion == "" {
-		log.Println("[main] OSVersion value unchanged: expected to be set during build")
+		slog.Info("expected value to be set during build",
+			"OSVersion", OSVersion,
+		)
 	}
 
 	registry := prometheus.NewRegistry()
@@ -61,7 +67,11 @@ func main() {
 	mux.Handle("/healthz", http.HandlerFunc(handleHealthz))
 	mux.Handle(*metricsPath, promhttp.HandlerFor(registry, promhttp.HandlerOpts{}))
 
-	log.Printf("[main] Server starting (%s)", *endpoint)
-	log.Printf("[main] metrics served on: %s", *metricsPath)
-	log.Fatal(http.ListenAndServe(*endpoint, mux))
+	slog.Info("Server starting",
+		"endpoint", *endpoint,
+		"metricsPath", *metricsPath,
+	)
+	slog.Error("server error",
+		"err", http.ListenAndServe(*endpoint, mux),
+	)
 }
