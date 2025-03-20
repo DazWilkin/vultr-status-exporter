@@ -73,10 +73,16 @@ func (c *StatusCollector) Collect(ch chan<- prometheus.Metric) {
 			// ServiceAlerts can be repeated within a region
 			// Since these can't be disambiguated, only record them once
 			if ids[serviceAlert.ID] {
+				slog.Info("StatusCollector:Collect duplicate ServiceAlert",
+					"id", serviceAlert.ID,
+				)
 				continue
 			}
 
 			// Record the ServiceAlert ID
+			slog.Info("StatusCollector:Collect recording ServiceAlert",
+				"id", serviceAlert.ID,
+			)
 			ids[serviceAlert.ID] = true
 
 			ch <- prometheus.MustNewConstMetric(
