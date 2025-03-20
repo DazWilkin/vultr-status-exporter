@@ -2,7 +2,6 @@ package main
 
 import (
 	"flag"
-	"fmt"
 	"log/slog"
 	"net/http"
 	"runtime"
@@ -28,22 +27,6 @@ var (
 	metricsPath = flag.String("path", "/metrics", "The path on which Prometheus metrics will be served")
 )
 
-func handleHealthz(w http.ResponseWriter, _ *http.Request) {
-	w.WriteHeader(http.StatusOK)
-	if _, err := w.Write([]byte("ok")); err != nil {
-		slog.Error("unable to write",
-			"err", err,
-		)
-	}
-}
-func handleRoot(w http.ResponseWriter, _ *http.Request) {
-	w.Header().Set("Content-Type", "text/html; charset=UTF-8")
-	fmt.Fprint(w, "<h2>Vultr Status Exporter</h2>")
-	fmt.Fprint(w, "<ul>")
-	fmt.Fprintf(w, "<li><a href=\"%s\">metrics</a></li>", *metricsPath)
-	fmt.Fprintf(w, "<li><a href=\"/healthz\">healthz</a></li>")
-	fmt.Fprint(w, "</ul>")
-}
 func main() {
 	flag.Parse()
 
@@ -63,8 +46,10 @@ func main() {
 	registry.MustRegister(collector.NewStatusCollector())
 
 	mux := http.NewServeMux()
-	mux.Handle("/", http.HandlerFunc(handleRoot))
-	mux.Handle("/healthz", http.HandlerFunc(handleHealthz))
+	mux.Handle("/", http.HandlerFunc(root))
+	mux.Handle("/healthz", http.HandlerFunc(healthz))
+	mux.Handle("/robots.txt", http.HandlerFunc(robots))
+
 	mux.Handle(*metricsPath, promhttp.HandlerFor(registry, promhttp.HandlerOpts{}))
 
 	slog.Info("Server starting",
