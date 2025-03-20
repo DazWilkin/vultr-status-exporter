@@ -50,6 +50,11 @@ func NewStatusCollector() *StatusCollector {
 
 // Collect implements Prometheus' Collector interface and is used to collect metrics
 func (c *StatusCollector) Collect(ch chan<- prometheus.Metric) {
+	// Account for possibility of duplicate ServiceAlert(IDs)
+	// See Issue 18
+	// https://github.com/DazWilkin/vultr-status-exporter/issues/18
+	ids := map[string]bool{}
+
 	var wg sync.WaitGroup
 
 	wg.Add(1)
@@ -64,6 +69,16 @@ func (c *StatusCollector) Collect(ch chan<- prometheus.Metric) {
 		}
 
 		for _, serviceAlert := range alerts.ServiceAlerts {
+			// Skip ServiceAlert ID if it's been seen
+			// ServiceAlerts can be repeated within a region
+			// Since these can't be disambiguated, only record them once
+			if ids[serviceAlert.ID] {
+				continue
+			}
+
+			// Record the ServiceAlert ID
+			ids[serviceAlert.ID] = true
+
 			ch <- prometheus.MustNewConstMetric(
 				c.ServiceAlert,
 				prometheus.CounterValue,
