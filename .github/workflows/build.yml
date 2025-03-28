@@ -15,7 +15,9 @@ jobs:
         with:
           go-version: stable
       - name: golangci-lint
-        uses: golangci/golangci-lint-action@v6
+        uses: golangci/golangci-lint-action@v7
+        with:
+          version: v2.0
   vultr-status-exporter:
     name: vultr-status-exporter
     runs-on: ubuntu-latest
