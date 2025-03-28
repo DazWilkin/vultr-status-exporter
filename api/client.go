@@ -70,7 +70,15 @@ func (c *Client) Do(ctx context.Context, method, url string, body io.Reader) ([]
 		)
 		return nil, fmt.Errorf("%s\n%+v", msg, err)
 	}
-	defer resp.Body.Close()
+	defer func() {
+		if err := resp.Body.Close(); err != nil {
+			msg := "unable to close response body"
+			slog.Info(msg,
+				"method", method,
+				"url", url,
+			)
+		}
+	}()
 
 	respBody, err := io.ReadAll(resp.Body)
 	if err != nil {
