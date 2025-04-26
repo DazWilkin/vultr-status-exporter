@@ -59,7 +59,7 @@ Browse: `localhost:${NODE_PORT}`
 
 ## Sigstore
 
-`vultr-status-exporter`` container images are being signed by Sigstore and may be verified:
+`vultr-status-exporter` container images are being signed by Sigstore and may be verified:
 
 ```bash
 cosign verify \
