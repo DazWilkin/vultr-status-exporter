@@ -33,7 +33,7 @@ PORT="8080"
 podman run \
 --interactive --tty \
 --publish=${PORT}:${PORT} \
-ghcr.io/dazwilkin/vultr-status-exporter:0b5615c0690fe65e9e237b4c6801fb82528735bd
+ghcr.io/dazwilkin/vultr-status-exporter:c02bd17fd3b6a7faa6292d164047d29369bb4067
 ```
 
 ### Kubernetes
@@ -59,12 +59,12 @@ Browse: `localhost:${NODE_PORT}`
 
 ## Sigstore
 
-`vultr-status-exporter`` container images are being signed by Sigstore and may be verified:
+`vultr-status-exporter` container images are being signed by Sigstore and may be verified:
 
 ```bash
 cosign verify \
 --key=./cosign.pub \
-ghcr.io/dazwilkin/vultr-status-exporter:0b5615c0690fe65e9e237b4c6801fb82528735bd
+ghcr.io/dazwilkin/vultr-status-exporter:c02bd17fd3b6a7faa6292d164047d29369bb4067
 ```
 
 > **NOTE** `cosign.pub` may be downloaded [here](./cosign.pub)
