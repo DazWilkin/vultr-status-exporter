@@ -35,6 +35,7 @@ func NewStatusCollector(ch chan<- probe.Status, l *slog.Logger) *StatusCollector
 			prometheus.BuildFQName(namespace, subsystem, "service_alert"),
 			"Vultr Service Alerts",
 			[]string{
+				"id",
 				"region",
 				"status",
 			},
@@ -112,6 +113,7 @@ func (c *StatusCollector) Collect(ch chan<- prometheus.Metric) {
 				prometheus.CounterValue,
 				1.0,
 				[]string{
+					serviceAlert.ID,
 					serviceAlert.Region,
 					serviceAlert.Status,
 				}...,
