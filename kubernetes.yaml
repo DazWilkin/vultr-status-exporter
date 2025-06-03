@@ -20,7 +20,7 @@ items:
         spec:
           containers:
             - name: vultr-status-exporter
-              image: ghcr.io/dazwilkin/vultr-status-exporter:aa14d9f2cb554e2a28e0fcd7275380c371627904
+              image: ghcr.io/dazwilkin/vultr-status-exporter:cf7985d8f9d288101bcc2073e870f794498acf6d
               command:
               - /vultr-status-exporter
               args:
