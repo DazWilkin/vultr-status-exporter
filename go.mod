@@ -5,7 +5,7 @@ go 1.24.3
 require (
 	github.com/DazWilkin/go-probe v0.0.0-20250403165833-d2e6a85b4486
 	github.com/prometheus/client_golang v1.22.0
-	golang.org/x/time v0.11.0
+	golang.org/x/time v0.12.0
 )
 
 require (
