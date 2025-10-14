@@ -3,6 +3,13 @@ on:
   push:
     branches:
       - master
+    paths-ignore:
+      - '**.md'
+      - '**.json'
+      - '**.jsonnet'
+      - '**.key'
+      - '**.pub'
+      - '**.sh'
 jobs:
   golangci:
     name: lint
@@ -17,9 +24,10 @@ jobs:
       - name: golangci-lint
         uses: golangci/golangci-lint-action@v7
         with:
-          version: v2.0
+          version: latest
   vultr-status-exporter:
     name: vultr-status-exporter
+    needs: golangci
     runs-on: ubuntu-latest
     env:
       REPO: dazwilkin/vultr-status-exporter
