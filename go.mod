@@ -1,11 +1,11 @@
 module github.com/DazWilkin/vultr-status-exporter
 
-go 1.24.3
+go 1.25.3
 
 require (
 	github.com/DazWilkin/go-probe v0.0.0-20250403165833-d2e6a85b4486
-	github.com/prometheus/client_golang v1.22.0
-	golang.org/x/time v0.11.0
+	github.com/prometheus/client_golang v1.23.2
+	golang.org/x/time v0.14.0
 )
 
 require (
@@ -13,8 +13,9 @@ require (
 	github.com/cespare/xxhash/v2 v2.3.0 // indirect
 	github.com/munnerz/goautoneg v0.0.0-20191010083416-a7dc8b61c822 // indirect
 	github.com/prometheus/client_model v0.6.2 // indirect
-	github.com/prometheus/common v0.64.0 // indirect
-	github.com/prometheus/procfs v0.16.1 // indirect
-	golang.org/x/sys v0.33.0 // indirect
-	google.golang.org/protobuf v1.36.6 // indirect
+	github.com/prometheus/common v0.67.1 // indirect
+	github.com/prometheus/procfs v0.17.0 // indirect
+	go.yaml.in/yaml/v2 v2.4.3 // indirect
+	golang.org/x/sys v0.37.0 // indirect
+	google.golang.org/protobuf v1.36.10 // indirect
 )
